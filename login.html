@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egland - Login & Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .form-section {
+            flex: 1;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .brand-section {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .image-container {
+            width: 100%;
+            max-width: 800px;
+            height: 110vh;
+            max-height: 750px;
+            border-radius: 20px;
+            background: url('path/to/your/egland-background.jpg') center/cover no-repeat; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-header p {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            background: white;
+        }
+
+        .form-group input::placeholder {
+            color: #bdc3c7;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 1.5rem;
+        }
+
+        .forgot-password a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.75rem;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary:hover {
+            background: #34495e;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #7f8c8d;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ecf0f1;
+            z-index: 1;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ecf0f1;
+            background: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-btn:hover {
+            border-color: #d5dbdb;
+            background: #fafafa;
+        }
+
+        .social-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #7f8c8d;
+        }
+
+        .form-footer a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .modal-icon.success {
+            background: #2ecc71;
+        }
+
+        .modal-icon.error {
+            background: #e74c3c;
+        }
+
+        .modal h3 {
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .modal p {
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-modal {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 0.5rem;
+        }
+
+        .btn-retry {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-next {
+            background: #f39c12;
+            color: white;
+        }
+
+        .terms {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .terms a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <!-- Login Form -->
+            <div class="form-container" id="loginForm">
+                <div class="form-header">
+                    <h1>Login</h1>
+                    <p>Today is a new day. It's your day. You shape it.<br>Sign in to start managing your projects.</p>
+                </div>
+                
+                <form>
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="Email or username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="At least 8 characters">
+                    </div>
+                    
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" onclick="handleLogin(event)">Sign in</button>
+                </form>
+                
+                <div class="divider">
+                    <span>Or</span>
+                </div>
+                
+                <button class="social-btn">
+                    <span style="color: #4285f4; font-weight: bold; margin-right: 0.5rem;">G</span>
+                    Sign in with Google
+                </button>
+                
+                <button class="social-btn">
+                    <span style="color: #1877f2; font-weight: bold; margin-right: 0.5rem;">f</span>
+                    Sign in with Facebook
+                </button>
+                
+                <div class="form-footer">
+                    Don't you have an account? <a href="#" onclick="showRegister()">Sign up</a>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div class="form-container" id="registerForm" style="display: none;">
+                <div class="form-header">
+                    <h1>Create an account</h1>
+                    <p>Today is a new day. It's your day. You shape it.<br>Sign up to start managing your projects.</p>
+                </div>
+                
+                <form>
+                    <div class="form-group">
+                        <label for="registerUsername">Username</label>
+                        <input type="text" id="registerUsername" placeholder="Enter username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" placeholder="Example@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" placeholder="At least 8 characters">
+                    </div>
+                    
+                    <div class="terms">
+                        By creating an account, you agree to our <a href="#">Terms of use</a> and our <a href="#">Privacy Policy</a>.
+                    </div>
+                    
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" onclick="handleRegister(event)">Create account</button>
+                </form>
+                
+                <div class="divider">
+                    <span>Or</span>
+                </div>
+                
+                <button class="social-btn">
+                    <span style="color: #4285f4; font-weight: bold; margin-right: 0.5rem;">G</span>
+                    Create Account with Google
+                </button>
+                
+                <button class="social-btn">
+                    <span style="color: #1877f2; font-weight: bold; margin-right: 0.5rem;">f</span>
+                    Create Account with Facebook
+                </button>
+                
+                <div class="form-footer">
+                    Already have an account? <a href="#" onclick="showLogin()">Sign in</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="brand-section">
+    <div class="image-container">
+        <img src="images/egland2.png" alt="Deskripsi gambar" />
+    </div>
+</div>
+
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">
+                <span id="modalIconText">✓</span>
+            </div>
+            <h3 id="modalTitle">Success</h3>
+            <p id="modalMessage">Login successful!</p>
+            <div>
+                <button class="btn-modal btn-retry" id="retryBtn" onclick="closeModal()" style="display: none;">Retry</button>
+                <button class="btn-modal btn-next" id="nextBtn" onclick="closeModal()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dummy data
+        const users = [
+            { username: 'admin', email: 'admin@egland.com', password: 'password123' }
+        ];
+
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        function showModal(type, title, message) {
+            const modal = document.getElementById('modal');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalIconText = document.getElementById('modalIconText');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const retryBtn = document.getElementById('retryBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            if (type === 'success') {
+                modalIcon.className = 'modal-icon success';
+                modalIconText.textContent = '✓';
+                retryBtn.style.display = 'none';
+                nextBtn.style.display = 'inline-block';
+            } else {
+                modalIcon.className = 'modal-icon error';
+                modalIconText.textContent = '✗';
+                retryBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+            }
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Simple validation
+            if (!email || !password) {
+                showModal('error', 'Failed', 'Please fill in all fields.');
+                return;
+            }
+
+            // Check credentials (dummy validation)
+            const user = users.find(u => 
+                (u.email === email || u.username === email) && u.password === password
+            );
+
+            if (user) {
+                showModal('success', 'Success', 'Login successful! Welcome back.');
+            } else {
+                showModal('error', 'Failed', 'Invalid email or password.');
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            // Simple validation
+            if (!username || !email || !password) {
+                showModal('error', 'Failed', 'Please fill in all fields.');
+                return;
+            }
+
+            if (password.length < 8) {
+                showModal('error', 'Failed', 'Password must be at least 8 characters.');
+                return;
+            }
+
+            // Check if user already exists
+            const existingUser = users.find(u => u.email === email || u.username === username);
+            
+            if (existingUser) {
+                showModal('error', 'Failed', 'Email or username already exists.');
+                return;
+            }
+
+            // Add new user to dummy data
+            users.push({ username, email, password });
+            showModal('success', 'Success', 'Account created successfully! You can now sign in.');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
