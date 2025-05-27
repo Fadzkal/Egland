@@ -408,7 +408,8 @@
             <p id="modalMessage">Login successful!</p>
             <div>
                 <button class="btn-modal btn-retry" id="retryBtn" onclick="closeModal()" style="display: none;">Retry</button>
-                <button class="btn-modal btn-next" id="nextBtn" onclick="closeModal()">Next</button>
+                <button class="btn-modal btn-next" id="nextBtn" onclick="window.location.href='Egland.html'">Next</button>
+
             </div>
         </div>
     </div>
@@ -456,8 +457,12 @@
         }
 
         function closeModal() {
-            document.getElementById('modal').classList.remove('show');
-        }
+    document.getElementById('modal').classList.remove('show');
+    if (loginSuccess) {
+        window.location.href = 'Egland.html';
+    }
+}
+
 
         function handleLogin(event) {
             event.preventDefault();
